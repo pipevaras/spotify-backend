@@ -1,13 +1,64 @@
 import { Injectable } from '@nestjs/common';
 import { Artista } from './models/artista.model';
+import { Cancion } from './models/cancion.model';
+import { Playlist } from './models/playlist.model';
 
 @Injectable()
 export class AppService {
 
   private artistas:Artista[] = [];
+  private canciones:Cancion[] = [];
+  private playlists:Playlist[] = [];
 
   constructor(){
     this.inicializarArtistas();
+    this.inicializarCanciones();
+    this.inicializarPlaylists();
+
+  }
+
+  inicializarPlaylists(){
+
+    const playlist1 = new Playlist();
+    playlist1.id = 1;
+    playlist1.nombre = "Mi Playlist Favorita";
+    playlist1.fechaCreacion = new Date("2023-06-01");
+    playlist1.canciones = [this.canciones[0], this.canciones[1]];
+    this.playlists.push(playlist1);
+
+  }
+
+  inicializarCanciones(){
+
+    const cancion1 = new Cancion();
+    cancion1.id = 1;
+    cancion1.nombre = "Tití Me Preguntó";
+    cancion1.duracion = 3.25;
+    cancion1.reproducciones = 1000000;
+    cancion1.generoMusical = ["Reggaeton", "Trap"];
+    cancion1.artista = this.artistas[0];
+    cancion1.album = "Un Verano Sin Ti";
+    this.canciones.push(cancion1);
+
+    const cancion2 = new Cancion();
+    cancion2.id = 2;
+    cancion2.nombre = "Hips Don't Lie";
+    cancion2.duracion = 3.38;
+    cancion2.reproducciones = 500000;
+    cancion2.generoMusical = ["Pop", "Latino"];
+    cancion2.artista = this.artistas[1];
+    cancion2.album = "Oral Fixation Vol. 2";
+    this.canciones.push(cancion2);
+
+    const cancion3 = new Cancion();
+    cancion3.id = 3;
+    cancion3.nombre = "Viva La Vida";
+    cancion3.duracion = 4.02;
+    cancion3.reproducciones = 800000;
+    cancion3.generoMusical = ["Rock alternativo", "Pop rock"];
+    cancion3.artista = this.artistas[2];
+    cancion3.album = "Viva La Vida or Death and All His Friends";
+    this.canciones.push(cancion3);
 
   }
   inicializarArtistas() {
@@ -62,5 +113,19 @@ export class AppService {
 
   getArtistas(): Artista[]{
     return this.artistas;
+  }
+
+  getCanciones(): Cancion[]{
+    return this.canciones;
+  }
+
+  getPlaylists(): Playlist[]{
+    return this.playlists;
+  }
+
+  crearPlaylist(playlist:Playlist):Playlist{
+    playlist.id = this.playlists.length +1;
+    this.playlists.push(playlist);
+    return playlist;
   }
 }
