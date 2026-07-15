@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors(); //esta linea inhabilita desde que puerto me esten solicitando la info
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
